@@ -113,7 +113,8 @@ function findOldPath(mazeInfo, position, returnPossibilities) {
 
     let indexMax = 0;
     for (let index = 0; index < returnPossibilities.length; index++) {
-        if ( ((ariane[i-1][0] != returnPossibilities[index].positionX && ariane[i-1][1] != returnPossibilities[index].positionY) || (ariane[i-1][0] == returnPossibilities[index].positionX && ariane[i-1][1] != returnPossibilities[index].positionY) ||  (ariane[i-1][0] != returnPossibilities[index].positionX && ariane[i-1][1] == returnPossibilities[index].positionY)) && returnPossibilities[index].possibilities.length >= returnPossibilities[indexMax].possibilities.length) {
+        const isPositionDifferentFromBefore = ((ariane[i-1][0] != returnPossibilities[index].positionX && ariane[i-1][1] != returnPossibilities[index].positionY) || (ariane[i-1][0] == returnPossibilities[index].positionX && ariane[i-1][1] != returnPossibilities[index].positionY) ||  (ariane[i-1][0] != returnPossibilities[index].positionX && ariane[i-1][1] == returnPossibilities[index].positionY));
+        if ( isPositionDifferentFromBefore && returnPossibilities[index].possibilities.length >= returnPossibilities[indexMax].possibilities.length) {
             indexMax = index;
         }
     }
