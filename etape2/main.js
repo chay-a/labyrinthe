@@ -8,7 +8,7 @@ const mazeInfo = [
 const goal = [4, 2];
 let position = [0, 0];
 let i = 0;
-let ariane = [[0,0]];
+let ariane = [[0, 0]];
 let stepCount = 0;
 
 
@@ -38,12 +38,12 @@ function moveInMaze(mazeInfo, ariane, position) {
 
         ({ positionY, positionX } = actionAccordingToPossibilities(mazeInfo, position, positionY, positionX));
 
-        
+
 
         position[0] = positionX;
         position[1] = positionY;
 
-        
+
         i++;
 
         ariane[i] = [position[0], position[1]];
@@ -59,7 +59,7 @@ function printEndInfo() {
     console.log("longueur du chemin : " + mazeInfo[position[1]][position[0]].stepCount);
 }
 
-function printMazewithPosition (mazeInfo, position) {
+function printMazewithPosition(mazeInfo, position) {
     let maze = [];
 
     for (let i = 0; i < mazeInfo.length; i++) {
@@ -112,12 +112,15 @@ function findOldPath(mazeInfo, position, returnPossibilities) {
     }
 
     let indexMax = 0;
-    for (let index = 0; index < returnPossibilities.length; index++) {
-        const isPositionDifferentFromBefore = ((ariane[i-1][0] != returnPossibilities[index].positionX && ariane[i-1][1] != returnPossibilities[index].positionY) || (ariane[i-1][0] == returnPossibilities[index].positionX && ariane[i-1][1] != returnPossibilities[index].positionY) ||  (ariane[i-1][0] != returnPossibilities[index].positionX && ariane[i-1][1] == returnPossibilities[index].positionY));
-        if ( isPositionDifferentFromBefore && returnPossibilities[index].possibilities.length >= returnPossibilities[indexMax].possibilities.length) {
-            indexMax = index;
+    if (returnPossibilities.length > 1) {
+        for (let index = 0; index < returnPossibilities.length; index++) {
+            const isPositionDifferentFromBefore = ((ariane[i - 1][0] != returnPossibilities[index].positionX && ariane[i - 1][1] != returnPossibilities[index].positionY) || (ariane[i - 1][0] == returnPossibilities[index].positionX && ariane[i - 1][1] != returnPossibilities[index].positionY) || (ariane[i - 1][0] != returnPossibilities[index].positionX && ariane[i - 1][1] == returnPossibilities[index].positionY));
+            if (isPositionDifferentFromBefore && returnPossibilities[index].possibilities.length >= returnPossibilities[indexMax].possibilities.length) {
+                indexMax = index;
+            }
         }
     }
+
     return indexMax;
 }
 
@@ -125,27 +128,27 @@ function checkPossibilities(mazeInfo, position) {
     if (typeof mazeInfo[position[1] + 1] !== 'undefined' && mazeInfo[position[1] + 1][position[0]].path == 0 && mazeInfo[position[1] + 1][position[0]].stepCount == 0) {
         mazeInfo[position[1]][position[0]].possibilities = "D";
         if (position[0] == goal[0] && position[1] + 1 == goal[1]) {
-            return;   
+            return;
         }
     }
     if (typeof mazeInfo[position[1]][position[0] + 1] !== 'undefined' && mazeInfo[position[1]][position[0] + 1].path == 0 && mazeInfo[position[1]][position[0] + 1].stepCount == 0) {
-        if (position[0]+1 == goal[0] && position[1] == goal[1]) {
+        if (position[0] + 1 == goal[0] && position[1] == goal[1]) {
             mazeInfo[position[1]][position[0]].possibilities = "R";
-            return;   
+            return;
         }
         mazeInfo[position[1]][position[0]].possibilities += "R";
     }
     if (typeof mazeInfo[position[1] - 1] !== 'undefined' && mazeInfo[position[1] - 1][position[0]].path == 0 && mazeInfo[position[1] - 1][position[0]].stepCount == 0) {
-        if (position[0] == goal[0] && position[1]-1 == goal[1]) {
+        if (position[0] == goal[0] && position[1] - 1 == goal[1]) {
             mazeInfo[position[1]][position[0]].possibilities = "U";
-            return;   
+            return;
         }
         mazeInfo[position[1]][position[0]].possibilities += "U";
     }
     if (typeof mazeInfo[position[1]][position[0] - 1] !== 'undefined' && mazeInfo[position[1]][position[0] - 1].path == 0 && mazeInfo[position[1]][position[0] - 1].stepCount == 0) {
-        if (position[0]-1 == goal[0] && position[1] == goal[1]) {
+        if (position[0] - 1 == goal[0] && position[1] == goal[1]) {
             mazeInfo[position[1]][position[0]].possibilities = "L";
-            return;   
+            return;
         }
         mazeInfo[position[1]][position[0]].possibilities += "L";
     }
