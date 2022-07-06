@@ -1,42 +1,42 @@
-const lab = [
+const mazeInfo = [
     [{ path: 0, possibilities: "", stepCount: 0 }, { path: 1, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }],
     [{ path: 0, possibilities: "", stepCount: 0 }, { path: 1, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }, { path: 1, possibilities: "", stepCount: 0 }, { path: 1, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }, { path: 1, possibilities: "", stepCount: 0 }],
     [{ path: 0, possibilities: "", stepCount: 0 }, { path: 1, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }, { path: 1, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }],
     [{ path: 0, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }, { path: 1, possibilities: "", stepCount: 0 }, { path: 1, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }],
     [{ path: 0, possibilities: "", stepCount: 0 }, { path: 1, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }, { path: 1, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }],
     [{ path: 0, possibilities: "", stepCount: 0 }, { path: 1, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }, { path: 1, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }]];
-const goal = [6, 0];
+const goal = [4, 2];
 let position = [0, 0];
 let i = 0;
 let ariane = [[0,0]];
 let stepCount = 0;
 
 
-labyrinthe(lab, ariane, position);
+moveInMaze(mazeInfo, ariane, position);
 
 printEndInfo();
 
 
-function labyrinthe(lab, ariane, position) {
-    if (lab[position[1]][position[0]].stepCount == 0) {
-        lab[position[1]][position[0]].stepCount = stepCount;
+function moveInMaze(mazeInfo, ariane, position) {
+    if (mazeInfo[position[1]][position[0]].stepCount == 0) {
+        mazeInfo[position[1]][position[0]].stepCount = stepCount;
         stepCount++;
     }
-    printMazewithPosition(lab, position);
+    printMazewithPosition(mazeInfo, position);
 
     if (position[0] == goal[0] && position[1] == goal[1]) {
         return;
     } else {
 
-        if (lab[position[1]][position[0]].possibilities == "") {
-            checkPossibilities(lab, position);
+        if (mazeInfo[position[1]][position[0]].possibilities == "") {
+            checkPossibilities(mazeInfo, position);
         }
 
 
         let positionX = position[0];
         let positionY = position[1];
 
-        ({ positionY, positionX } = actionAccordingToPossibilities(lab, position, positionY, positionX));
+        ({ positionY, positionX } = actionAccordingToPossibilities(mazeInfo, position, positionY, positionX));
 
         
 
@@ -47,7 +47,7 @@ function labyrinthe(lab, ariane, position) {
         i++;
 
         ariane[i] = [position[0], position[1]];
-        labyrinthe(lab, ariane, position);
+        moveInMaze(mazeInfo, ariane, position);
     }
 
 }
@@ -56,16 +56,16 @@ function printEndInfo() {
     console.log(position);
     console.log(ariane);
     console.log("nombre d'étapes complet : " + ariane.length);
-    console.log("longueur du chemin : " + lab[position[1]][position[0]].stepCount);
+    console.log("longueur du chemin : " + mazeInfo[position[1]][position[0]].stepCount);
 }
 
-function printMazewithPosition (lab, position) {
+function printMazewithPosition (mazeInfo, position) {
     let maze = [];
 
-    for (let i = 0; i < lab.length; i++) {
+    for (let i = 0; i < mazeInfo.length; i++) {
         maze[i] = [];
-        for (let j = 0; j < lab[i].length; j++) {
-            if (lab[i][j].path == 0) {
+        for (let j = 0; j < mazeInfo[i].length; j++) {
+            if (mazeInfo[i][j].path == 0) {
                 maze[i][j] = "_";
             } else {
                 maze[i][j] = "M";
@@ -78,37 +78,37 @@ function printMazewithPosition (lab, position) {
     console.table(maze);
 }
 
-function actionAccordingToPossibilities(lab, position, positionY, positionX) {
-    if (lab[position[1]][position[0]].possibilities.charAt(0) == "D") {
+function actionAccordingToPossibilities(mazeInfo, position, positionY, positionX) {
+    if (mazeInfo[position[1]][position[0]].possibilities.charAt(0) == "D") {
         positionY += 1;
-    } else if (lab[position[1]][position[0]].possibilities.charAt(0) == "R") {
+    } else if (mazeInfo[position[1]][position[0]].possibilities.charAt(0) == "R") {
         positionX += 1;
-    } else if (lab[position[1]][position[0]].possibilities.charAt(0) == "U") {
+    } else if (mazeInfo[position[1]][position[0]].possibilities.charAt(0) == "U") {
         positionY -= 1;
-    } else if (lab[position[1]][position[0]].possibilities.charAt(0) == "L") {
+    } else if (mazeInfo[position[1]][position[0]].possibilities.charAt(0) == "L") {
         positionX -= 1;
     } else {
         let returnPossibilities = [];
-        let indexMax = findOldPath(lab, position, returnPossibilities);
+        let indexMax = findOldPath(mazeInfo, position, returnPossibilities);
         positionX = returnPossibilities[indexMax].positionX;
         positionY = returnPossibilities[indexMax].positionY;
     }
-    lab[position[1]][position[0]].possibilities = lab[position[1]][position[0]].possibilities.slice(1);
+    mazeInfo[position[1]][position[0]].possibilities = mazeInfo[position[1]][position[0]].possibilities.slice(1);
     return { positionY, positionX };
 }
 
-function findOldPath(lab, position, returnPossibilities) {
-    if (typeof lab[position[1]][position[0] - 1] !== 'undefined' && lab[position[1]][position[0] - 1].path == 0 && lab[position[1]][position[0] - 1].stepCount >= 0 && !(lab[position[1]][position[0] - 1].possibilities.includes('R'))) {
-        returnPossibilities.push({ positionX: position[0] - 1, positionY: position[1], possibilities: lab[position[1]][position[0] - 1].possibilities });
+function findOldPath(mazeInfo, position, returnPossibilities) {
+    if (typeof mazeInfo[position[1]][position[0] - 1] !== 'undefined' && mazeInfo[position[1]][position[0] - 1].path == 0 && mazeInfo[position[1]][position[0] - 1].stepCount >= 0 && !(mazeInfo[position[1]][position[0] - 1].possibilities.includes('R'))) {
+        returnPossibilities.push({ positionX: position[0] - 1, positionY: position[1], possibilities: mazeInfo[position[1]][position[0] - 1].possibilities });
     }
-    if (typeof lab[position[1] - 1] !== 'undefined' && lab[position[1] - 1][position[0]].path == 0 && lab[position[1] - 1][position[0]].stepCount >= 0 && !(lab[position[1] - 1][position[0]].possibilities.includes("D"))) {
-        returnPossibilities.push({ positionX: position[0], positionY: position[1] - 1, possibilities: lab[position[1] - 1][position[0]].possibilities });
+    if (typeof mazeInfo[position[1] - 1] !== 'undefined' && mazeInfo[position[1] - 1][position[0]].path == 0 && mazeInfo[position[1] - 1][position[0]].stepCount >= 0 && !(mazeInfo[position[1] - 1][position[0]].possibilities.includes("D"))) {
+        returnPossibilities.push({ positionX: position[0], positionY: position[1] - 1, possibilities: mazeInfo[position[1] - 1][position[0]].possibilities });
     }
-    if (typeof lab[position[1]][position[0] + 1] !== 'undefined' && lab[position[1]][position[0] + 1].path == 0 && lab[position[1]][position[0] + 1].stepCount >= 0 && !(lab[position[1]][position[0] + 1].possibilities.includes('L'))) {
-        returnPossibilities.push({ positionX: position[0] + 1, positionY: position[1], possibilities: lab[position[1]][position[0] + 1].possibilities });
+    if (typeof mazeInfo[position[1]][position[0] + 1] !== 'undefined' && mazeInfo[position[1]][position[0] + 1].path == 0 && mazeInfo[position[1]][position[0] + 1].stepCount >= 0 && !(mazeInfo[position[1]][position[0] + 1].possibilities.includes('L'))) {
+        returnPossibilities.push({ positionX: position[0] + 1, positionY: position[1], possibilities: mazeInfo[position[1]][position[0] + 1].possibilities });
     }
-    if (typeof lab[position[1] + 1] !== 'undefined' && lab[position[1] + 1][position[0]].path == 0 && lab[position[1] + 1][position[0]].stepCount >= 0 && !(lab[position[1] + 1][position[0]].possibilities.includes('U'))) {
-        returnPossibilities.push({ positionX: position[0], positionY: position[1] + 1, possibilities: lab[position[1] + 1][position[0]].possibilities });
+    if (typeof mazeInfo[position[1] + 1] !== 'undefined' && mazeInfo[position[1] + 1][position[0]].path == 0 && mazeInfo[position[1] + 1][position[0]].stepCount >= 0 && !(mazeInfo[position[1] + 1][position[0]].possibilities.includes('U'))) {
+        returnPossibilities.push({ positionX: position[0], positionY: position[1] + 1, possibilities: mazeInfo[position[1] + 1][position[0]].possibilities });
     }
 
     let indexMax = 0;
@@ -120,32 +120,32 @@ function findOldPath(lab, position, returnPossibilities) {
     return indexMax;
 }
 
-function checkPossibilities(lab, position) {
-    if (typeof lab[position[1] + 1] !== 'undefined' && lab[position[1] + 1][position[0]].path == 0 && lab[position[1] + 1][position[0]].stepCount == 0) {
-        lab[position[1]][position[0]].possibilities = "D";
+function checkPossibilities(mazeInfo, position) {
+    if (typeof mazeInfo[position[1] + 1] !== 'undefined' && mazeInfo[position[1] + 1][position[0]].path == 0 && mazeInfo[position[1] + 1][position[0]].stepCount == 0) {
+        mazeInfo[position[1]][position[0]].possibilities = "D";
         if (position[0] == goal[0] && position[1] + 1 == goal[1]) {
             return;   
         }
     }
-    if (typeof lab[position[1]][position[0] + 1] !== 'undefined' && lab[position[1]][position[0] + 1].path == 0 && lab[position[1]][position[0] + 1].stepCount == 0) {
+    if (typeof mazeInfo[position[1]][position[0] + 1] !== 'undefined' && mazeInfo[position[1]][position[0] + 1].path == 0 && mazeInfo[position[1]][position[0] + 1].stepCount == 0) {
         if (position[0]+1 == goal[0] && position[1] == goal[1]) {
-            lab[position[1]][position[0]].possibilities = "R";
+            mazeInfo[position[1]][position[0]].possibilities = "R";
             return;   
         }
-        lab[position[1]][position[0]].possibilities += "R";
+        mazeInfo[position[1]][position[0]].possibilities += "R";
     }
-    if (typeof lab[position[1] - 1] !== 'undefined' && lab[position[1] - 1][position[0]].path == 0 && lab[position[1] - 1][position[0]].stepCount == 0) {
+    if (typeof mazeInfo[position[1] - 1] !== 'undefined' && mazeInfo[position[1] - 1][position[0]].path == 0 && mazeInfo[position[1] - 1][position[0]].stepCount == 0) {
         if (position[0] == goal[0] && position[1]-1 == goal[1]) {
-            lab[position[1]][position[0]].possibilities = "U";
+            mazeInfo[position[1]][position[0]].possibilities = "U";
             return;   
         }
-        lab[position[1]][position[0]].possibilities += "U";
+        mazeInfo[position[1]][position[0]].possibilities += "U";
     }
-    if (typeof lab[position[1]][position[0] - 1] !== 'undefined' && lab[position[1]][position[0] - 1].path == 0 && lab[position[1]][position[0] - 1].stepCount == 0) {
+    if (typeof mazeInfo[position[1]][position[0] - 1] !== 'undefined' && mazeInfo[position[1]][position[0] - 1].path == 0 && mazeInfo[position[1]][position[0] - 1].stepCount == 0) {
         if (position[0]-1 == goal[0] && position[1] == goal[1]) {
-            lab[position[1]][position[0]].possibilities = "L";
+            mazeInfo[position[1]][position[0]].possibilities = "L";
             return;   
         }
-        lab[position[1]][position[0]].possibilities += "L";
+        mazeInfo[position[1]][position[0]].possibilities += "L";
     }
 }
