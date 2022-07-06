@@ -5,25 +5,24 @@ const lab = [
     [{ path: 0, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }, { path: 1, possibilities: "", stepCount: 0 }, { path: 1, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }],
     [{ path: 0, possibilities: "", stepCount: 0 }, { path: 1, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }, { path: 1, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }],
     [{ path: 0, possibilities: "", stepCount: 0 }, { path: 1, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }, { path: 1, possibilities: "", stepCount: 0 }, { path: 0, possibilities: "", stepCount: 0 }]];
-const goal = [4, 2];
+const goal = [6, 0];
 let position = [0, 0];
 let i = 0;
 let ariane = [[0,0]];
 let stepCount = 0;
 
-console.table(lab);
 
 labyrinthe(lab, ariane, position);
 
-console.table(lab);
-console.log(position);
-console.log(ariane);
+printEndInfo();
+
 
 function labyrinthe(lab, ariane, position) {
     if (lab[position[1]][position[0]].stepCount == 0) {
         lab[position[1]][position[0]].stepCount = stepCount;
         stepCount++;
     }
+    printMazewithPosition(lab, position);
 
     if (position[0] == goal[0] && position[1] == goal[1]) {
         return;
@@ -51,6 +50,32 @@ function labyrinthe(lab, ariane, position) {
         labyrinthe(lab, ariane, position);
     }
 
+}
+
+function printEndInfo() {
+    console.log(position);
+    console.log(ariane);
+    console.log("nombre d'étapes complet : " + ariane.length);
+    console.log("longueur du chemin : " + lab[position[1]][position[0]].stepCount);
+}
+
+function printMazewithPosition (lab, position) {
+    let maze = [];
+
+    for (let i = 0; i < lab.length; i++) {
+        maze[i] = [];
+        for (let j = 0; j < lab[i].length; j++) {
+            if (lab[i][j].path == 0) {
+                maze[i][j] = "_";
+            } else {
+                maze[i][j] = "M";
+            }
+        }
+    }
+
+    maze[position[1]][position[0]] = "ICI";
+
+    console.table(maze);
 }
 
 function actionAccordingToPossibilities(lab, position, positionY, positionX) {
@@ -98,14 +123,29 @@ function findOldPath(lab, position, returnPossibilities) {
 function checkPossibilities(lab, position) {
     if (typeof lab[position[1] + 1] !== 'undefined' && lab[position[1] + 1][position[0]].path == 0 && lab[position[1] + 1][position[0]].stepCount == 0) {
         lab[position[1]][position[0]].possibilities = "D";
+        if (position[0] == goal[0] && position[1] + 1 == goal[1]) {
+            return;   
+        }
     }
     if (typeof lab[position[1]][position[0] + 1] !== 'undefined' && lab[position[1]][position[0] + 1].path == 0 && lab[position[1]][position[0] + 1].stepCount == 0) {
+        if (position[0]+1 == goal[0] && position[1] == goal[1]) {
+            lab[position[1]][position[0]].possibilities = "R";
+            return;   
+        }
         lab[position[1]][position[0]].possibilities += "R";
     }
     if (typeof lab[position[1] - 1] !== 'undefined' && lab[position[1] - 1][position[0]].path == 0 && lab[position[1] - 1][position[0]].stepCount == 0) {
+        if (position[0] == goal[0] && position[1]-1 == goal[1]) {
+            lab[position[1]][position[0]].possibilities = "U";
+            return;   
+        }
         lab[position[1]][position[0]].possibilities += "U";
     }
     if (typeof lab[position[1]][position[0] - 1] !== 'undefined' && lab[position[1]][position[0] - 1].path == 0 && lab[position[1]][position[0] - 1].stepCount == 0) {
+        if (position[0]-1 == goal[0] && position[1] == goal[1]) {
+            lab[position[1]][position[0]].possibilities = "L";
+            return;   
+        }
         lab[position[1]][position[0]].possibilities += "L";
     }
 }
