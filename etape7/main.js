@@ -1,46 +1,46 @@
 const mazeInfo = [
-    [{ path: 0, possibilities: "", nodeNb: null },
-    { path: 0, possibilities: "", nodeNb: 0 },
-    { path: 0, possibilities: "", nodeNb: 0 },
-    { path: 0, possibilities: "", nodeNb: 0 },
-    { path: 0, possibilities: "", nodeNb: 0 },
-    { path: 0, possibilities: "", nodeNb: 0 }],
-    [{ path: 1, possibilities: "", nodeNb: 0 },
-    { path: 1, possibilities: "", nodeNb: 0 },
-    { path: 1, possibilities: "", nodeNb: 0 },
-    { path: 0, possibilities: "", nodeNb: 0 },
-    { path: 1, possibilities: "", nodeNb: 0 },
-    { path: 1, possibilities: "", nodeNb: 0 }],
-    [{ path: 0, possibilities: "", nodeNb: 0 },
-    { path: 0, possibilities: "", nodeNb: 0 },
-    { path: 0, possibilities: "", nodeNb: 0 },
-    { path: 0, possibilities: "", nodeNb: 0 },
-    { path: 0, possibilities: "", nodeNb: 0 },
-    { path: 0, possibilities: "", nodeNb: 0 }],
-    [{ path: 0, possibilities: "", nodeNb: 0 },
-    { path: 1, possibilities: "", nodeNb: 0 },
-    { path: 1, possibilities: "", nodeNb: 0 },
-    { path: 0, possibilities: "", nodeNb: 0 },
-    { path: 1, possibilities: "", nodeNb: 0 },
-    { path: 0, possibilities: "", nodeNb: 0 }],
-    [{ path: 0, possibilities: "", nodeNb: 0 },
-    { path: 1, possibilities: "", nodeNb: 0 },
-    { path: 0, possibilities: "", nodeNb: 0 },
-    { path: 1, possibilities: "", nodeNb: 0 },
-    { path: 0, possibilities: "", nodeNb: 0 },
-    { path: 0, possibilities: "", nodeNb: 0 }],
-    [{ path: 0, possibilities: "", nodeNb: 0 },
-    { path: 0, possibilities: "", nodeNb: 0 },
-    { path: 0, possibilities: "", nodeNb: 0 },
-    { path: 1, possibilities: "", nodeNb: 0 },
-    { path: 0, possibilities: "", nodeNb: 0 },
-    { path: 1, possibilities: "", nodeNb: 0 }],
-    [{ path: 0, possibilities: "", nodeNb: 0 },
-    { path: 1, possibilities: "", nodeNb: 0 },
-    { path: 0, possibilities: "", nodeNb: 0 },
-    { path: 0, possibilities: "", nodeNb: 0 },
-    { path: 0, possibilities: "", nodeNb: 0 },
-    { path: 0, possibilities: "", nodeNb: 0 }]];
+    [{ path: 0, possibilities: "", nodeNb: null, from : [], pathNb :0 },
+    { path: 0, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 0, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 0, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 0, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 0, possibilities: "", nodeNb: 0, from : [], pathNb :0 }],
+    [{ path: 1, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 1, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 1, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 0, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 1, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 1, possibilities: "", nodeNb: 0, from : [], pathNb :0 }],
+    [{ path: 0, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 0, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 0, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 0, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 0, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 0, possibilities: "", nodeNb: 0, from : [] , pathNb :0}],
+    [{ path: 0, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 1, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 1, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 0, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 1, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 0, possibilities: "", nodeNb: 0, from : [], pathNb :0 }],
+    [{ path: 0, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 1, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 0, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 1, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 0, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 0, possibilities: "", nodeNb: 0, from : [], pathNb :0 }],
+    [{ path: 0, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 0, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 0, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 1, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 0, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 1, possibilities: "", nodeNb: 0, from : [] , pathNb :0}],
+    [{ path: 0, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 1, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 0, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 0, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 0, possibilities: "", nodeNb: 0, from : [], pathNb :0 },
+    { path: 0, possibilities: "", nodeNb: 0, from : [], pathNb :0 }]];
 
 const goal = [4, 2];
 let position = [0, 0];
@@ -55,10 +55,20 @@ function movingInMaze(mazeInfo, goal, position) {
     if (isPositionSameAsGoal(position)) {
         return;
     } else {
+
         checkPossibilities(mazeInfo, position);
+        
+        let fromNodeCoordinate = mazeInfo[position[0]][position[1]].from;
+
+        if (fromNodeCoordinate.length > 1) {
+            mazeInfo[position[0]][position[1]].pathNb = mazeInfo[fromNodeCoordinate[0]][fromNodeCoordinate[1]].pathNb +1;
+        }
+        
+
         let nextNode = mazeInfo[position[0]][position[1]].nodeNb +1;
         position[0] = ariane[nextNode][0];
         position[1] = ariane[nextNode][1];
+        
 
         movingInMaze(mazeInfo, goal, position);
     }
@@ -69,7 +79,17 @@ function printEndInfo() {
     console.log(position);
     console.log(ariane);
     console.log("nombre d'étapes complet : " + ariane.length);
-    console.log("longueur du chemin : " + nodeCount);
+    let countPosition = [goal[0], goal[1]];
+    let count = 0;
+    while ((countPosition[0] != 0 && countPosition[1] != 0) || (countPosition[0] == 0 && countPosition[1] != 0) || (countPosition[0] != 0 && countPosition[1] == 0)) {
+        let newPositionX = mazeInfo[countPosition[0]][countPosition[1]].from[0];
+        let newPositionY = mazeInfo[countPosition[0]][countPosition[1]].from[1];
+        countPosition[0] = newPositionX;
+        countPosition[1] = newPositionY;
+        count++;
+    }
+
+    console.log("longueur du chemin : " + count);
 }
 
 function printMazewithPosition(mazeInfo, position) {
@@ -80,18 +100,20 @@ function printMazewithPosition(mazeInfo, position) {
         for (let j = 0; j < mazeInfo.length; j++) {
             if (mazeInfo[j][i].path == 0) {
                 if (position[0] == j && position[1] == i) {
-                    mazeDisplay += "   ICI ";
+                    mazeDisplay += "ICI   ";
                 } else {
-                    if (mazeInfo[j][i].nodeNb == null) {
-                        mazeDisplay += "   S   ";
-                    } else if (mazeInfo[j][i].nodeNb > 9) {
-                        mazeDisplay += "   "+ mazeInfo[j][i].nodeNb +"  ";
+                    if (i == 0 && j == 0) {
+                        mazeDisplay += "S     ";
+                    } else if (j == goal[0] && i == goal[1]) {
+                        mazeDisplay += "G     ";
+                    } else if (mazeInfo[j][i].pathNb > 9) {
+                        mazeDisplay += ""+ mazeInfo[j][i].pathNb +"    ";
                     } else {
-                        mazeDisplay += "   "+ mazeInfo[j][i].nodeNb +"   ";
+                        mazeDisplay += ""+ mazeInfo[j][i].pathNb +"     ";
                     }
                 }
             } else {
-                mazeDisplay += "   M   ";
+                mazeDisplay += "M     ";
             }
 
         }
@@ -108,21 +130,29 @@ function checkPossibilities(mazeInfo, position) {
     if (isDownPathInMaze(mazeInfo, position) && isDownPathAPath(mazeInfo, position) && isDownPathNotVisited(mazeInfo, position)) {
         nodeCount++;
         mazeInfo[position[0]][position[1]+1].nodeNb = nodeCount;
+        mazeInfo[position[0]][position[1]+1].from[0] = position[0];
+        mazeInfo[position[0]][position[1]+1].from[1] = position[1];
         ariane[nodeCount] = [position[0], position[1] + 1];
     }
     if (isRightPathInMaze(mazeInfo, position) && isRightPathAPath(mazeInfo, position) && isRightPathNotVisited(mazeInfo, position)) {
         nodeCount++;
         mazeInfo[position[0]+1][position[1]].nodeNb = nodeCount;
+        mazeInfo[position[0]+1][position[1]].from[0] = position[0];
+        mazeInfo[position[0]+1][position[1]].from[1] = position[1];
         ariane[nodeCount] = [position[0] +1, position[1]];
     }
     if (isUpPathInMaze(mazeInfo, position) && isUpPathAPath(mazeInfo, position) && isUpPathNotVisited(mazeInfo, position)) {
         nodeCount++;
         mazeInfo[position[0]][position[1]-1].nodeNb = nodeCount;
+        mazeInfo[position[0]][position[1]-1].from[0] = position[0];
+        mazeInfo[position[0]][position[1]-1].from[1] = position[1];
         ariane[nodeCount] = [position[0], position[1]-1];
     }
     if (isLeftPathInMaze(mazeInfo, position) && isLeftPathAPath(mazeInfo, position) && isLeftPathNotVisited(mazeInfo, position)) {
         nodeCount++;
-        mazeInfo[position[0]-1][position[1]].nodeNb;
+        mazeInfo[position[0]-1][position[1]].nodeNb = nodeCount;
+        mazeInfo[position[0]-1][position[1]].from[0] = position[0];
+        mazeInfo[position[0]-1][position[1]].from[1] = position[1];
         ariane[nodeCount] = [position[0]-1, position[1]];
     }
 }
