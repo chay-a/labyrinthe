@@ -18,19 +18,19 @@ printEndInfo();
 
 
 function moveInMaze(mazeInfo, ariane, position) {
-    if (mazeInfo[position[1]][position[0]].stepCount == 0) {
+    if (isPathNotVisited(mazeInfo, position)) {
         mazeInfo[position[1]][position[0]].stepCount = stepCount;
         stepCount++;
     }
     printMazewithPosition(mazeInfo, position);
 
-    if (position[0] == goal[0] && position[1] == goal[1]) {
+    if (isPositionSameAsGoal(position)) {
         return;
     } else {
 
-        if (mazeInfo[position[1]][position[0]].possibilities == "") {
-            checkPossibilities(mazeInfo, position);
-        }
+
+        checkPossibilities(mazeInfo, position);
+
 
 
         let positionX = position[0];
@@ -50,6 +50,18 @@ function moveInMaze(mazeInfo, ariane, position) {
         moveInMaze(mazeInfo, ariane, position);
     }
 
+}
+
+function isPositionSameAsGoal(position) {
+    return position[0] == goal[0] && position[1] == goal[1];
+}
+
+function isPathNotVisited(mazeInfo, position) {
+    return mazeInfo[position[1]][position[0]].stepCount == 0;
+}
+
+function isPathWithNoPossibilities(mazeInfo, position) {
+    return mazeInfo[position[1]][position[0]].possibilities == "";
 }
 
 function printEndInfo() {
@@ -79,13 +91,13 @@ function printMazewithPosition(mazeInfo, position) {
 }
 
 function actionAccordingToPossibilities(mazeInfo, position, positionY, positionX) {
-    if (mazeInfo[position[1]][position[0]].possibilities.charAt(0) == "D") {
+    if (isDownAPossibility(mazeInfo, position)) {
         positionY += 1;
-    } else if (mazeInfo[position[1]][position[0]].possibilities.charAt(0) == "R") {
+    } else if (isRightAPossibility(mazeInfo, position)) {
         positionX += 1;
-    } else if (mazeInfo[position[1]][position[0]].possibilities.charAt(0) == "U") {
+    } else if (isUpAPossibility(mazeInfo, position)) {
         positionY -= 1;
-    } else if (mazeInfo[position[1]][position[0]].possibilities.charAt(0) == "L") {
+    } else if (isLeftAPossibility(mazeInfo, position)) {
         positionX -= 1;
     } else {
         let returnPossibilities = [];
@@ -97,25 +109,26 @@ function actionAccordingToPossibilities(mazeInfo, position, positionY, positionX
     return { positionY, positionX };
 }
 
+
+
 function findOldPath(mazeInfo, position, returnPossibilities) {
-    if (typeof mazeInfo[position[1]][position[0] - 1] !== 'undefined' && mazeInfo[position[1]][position[0] - 1].path == 0 && mazeInfo[position[1]][position[0] - 1].stepCount >= 0 && !(mazeInfo[position[1]][position[0] - 1].possibilities.includes('R'))) {
+    if (isLeftPathInMaze(mazeInfo, position) && isLeftPathAPath(mazeInfo, position) && isLeftPathAlreadyVisited(mazeInfo, position) && hasNotLeftPathARightPossibility(mazeInfo, position)) {
         returnPossibilities.push({ positionX: position[0] - 1, positionY: position[1], possibilities: mazeInfo[position[1]][position[0] - 1].possibilities });
     }
-    if (typeof mazeInfo[position[1] - 1] !== 'undefined' && mazeInfo[position[1] - 1][position[0]].path == 0 && mazeInfo[position[1] - 1][position[0]].stepCount >= 0 && !(mazeInfo[position[1] - 1][position[0]].possibilities.includes("D"))) {
+    if (isUpPathInMaze(mazeInfo, position) && isUpPathAPath(mazeInfo, position) && isUpPathAlreadyVisited(mazeInfo, position) && hasNotUpPathADownPossibility(mazeInfo, position)) {
         returnPossibilities.push({ positionX: position[0], positionY: position[1] - 1, possibilities: mazeInfo[position[1] - 1][position[0]].possibilities });
     }
-    if (typeof mazeInfo[position[1]][position[0] + 1] !== 'undefined' && mazeInfo[position[1]][position[0] + 1].path == 0 && mazeInfo[position[1]][position[0] + 1].stepCount >= 0 && !(mazeInfo[position[1]][position[0] + 1].possibilities.includes('L'))) {
+    if (isRightPathInMaze(mazeInfo, position) && isRightPathAPath(mazeInfo, position) && isRightPathAlreadyVisited(mazeInfo, position) && hasNotRightPathALeftPossibility(mazeInfo, position)) {
         returnPossibilities.push({ positionX: position[0] + 1, positionY: position[1], possibilities: mazeInfo[position[1]][position[0] + 1].possibilities });
     }
-    if (typeof mazeInfo[position[1] + 1] !== 'undefined' && mazeInfo[position[1] + 1][position[0]].path == 0 && mazeInfo[position[1] + 1][position[0]].stepCount >= 0 && !(mazeInfo[position[1] + 1][position[0]].possibilities.includes('U'))) {
+    if (isDownPathInMaze(mazeInfo, position) && isDownPathAPath(mazeInfo, position) && isDownPathAlreadyVisited(mazeInfo, position) && hasNotDownPathAUpPossibility(mazeInfo, position)) {
         returnPossibilities.push({ positionX: position[0], positionY: position[1] + 1, possibilities: mazeInfo[position[1] + 1][position[0]].possibilities });
     }
 
     let indexMax = 0;
     if (returnPossibilities.length > 1) {
         for (let index = 0; index < returnPossibilities.length; index++) {
-            const isPositionDifferentFromBefore = ((ariane[i - 1][0] != returnPossibilities[index].positionX && ariane[i - 1][1] != returnPossibilities[index].positionY) || (ariane[i - 1][0] == returnPossibilities[index].positionX && ariane[i - 1][1] != returnPossibilities[index].positionY) || (ariane[i - 1][0] != returnPossibilities[index].positionX && ariane[i - 1][1] == returnPossibilities[index].positionY));
-            if (isPositionDifferentFromBefore && returnPossibilities[index].possibilities.length >= returnPossibilities[indexMax].possibilities.length) {
+            if (isPositionDifferentFromBefore(returnPossibilities, index) && isLengthOfPossibilitiesGreaterThanPossibilitiesatIndexMax(returnPossibilities, index, indexMax)) {
                 indexMax = index;
             }
         }
@@ -124,32 +137,143 @@ function findOldPath(mazeInfo, position, returnPossibilities) {
     return indexMax;
 }
 
+
+
 function checkPossibilities(mazeInfo, position) {
-    if (typeof mazeInfo[position[1] + 1] !== 'undefined' && mazeInfo[position[1] + 1][position[0]].path == 0 && mazeInfo[position[1] + 1][position[0]].stepCount == 0) {
+    if (isDownPathInMaze(mazeInfo, position) && isDownPathAPath(mazeInfo, position) && isDownPathNotVisited(mazeInfo, position)) {
         mazeInfo[position[1]][position[0]].possibilities = "D";
         if (position[0] == goal[0] && position[1] + 1 == goal[1]) {
             return;
         }
+        return;
     }
-    if (typeof mazeInfo[position[1]][position[0] + 1] !== 'undefined' && mazeInfo[position[1]][position[0] + 1].path == 0 && mazeInfo[position[1]][position[0] + 1].stepCount == 0) {
+    if (isRightPathInMaze(mazeInfo, position) && isRightPathAPath(mazeInfo, position) && isRightPathNotVisited(mazeInfo, position)) {
         if (position[0] + 1 == goal[0] && position[1] == goal[1]) {
             mazeInfo[position[1]][position[0]].possibilities = "R";
             return;
         }
         mazeInfo[position[1]][position[0]].possibilities += "R";
+        return;
     }
-    if (typeof mazeInfo[position[1] - 1] !== 'undefined' && mazeInfo[position[1] - 1][position[0]].path == 0 && mazeInfo[position[1] - 1][position[0]].stepCount == 0) {
+    if (isUpPathInMaze(mazeInfo, position) && isUpPathAPath(mazeInfo, position) && isUpPathNotVisited(mazeInfo, position)) {
         if (position[0] == goal[0] && position[1] - 1 == goal[1]) {
             mazeInfo[position[1]][position[0]].possibilities = "U";
             return;
         }
         mazeInfo[position[1]][position[0]].possibilities += "U";
+        return;
     }
-    if (typeof mazeInfo[position[1]][position[0] - 1] !== 'undefined' && mazeInfo[position[1]][position[0] - 1].path == 0 && mazeInfo[position[1]][position[0] - 1].stepCount == 0) {
+    if (isLeftPathInMaze(mazeInfo, position) && isLeftPathAPath(mazeInfo, position) && isLeftPathNotVisited(mazeInfo, position)) {
         if (position[0] - 1 == goal[0] && position[1] == goal[1]) {
             mazeInfo[position[1]][position[0]].possibilities = "L";
             return;
         }
         mazeInfo[position[1]][position[0]].possibilities += "L";
+        return;
     }
+}
+
+
+function isLeftAPossibility(mazeInfo, position) {
+    return mazeInfo[position[1]][position[0]].possibilities.charAt(0) == "L";
+}
+
+function isUpAPossibility(mazeInfo, position) {
+    return mazeInfo[position[1]][position[0]].possibilities.charAt(0) == "U";
+}
+
+function isRightAPossibility(mazeInfo, position) {
+    return mazeInfo[position[1]][position[0]].possibilities.charAt(0) == "R";
+}
+
+function isDownAPossibility(mazeInfo, position) {
+    return mazeInfo[position[1]][position[0]].possibilities.charAt(0) == "D";
+}
+
+function isDownPathNotVisited(mazeInfo, position) {
+    return mazeInfo[position[1] + 1][position[0]].stepCount == 0;
+}
+
+function isRightPathNotVisited(mazeInfo, position) {
+    return mazeInfo[position[1]][position[0] + 1].stepCount == 0;
+}
+
+function isUpPathNotVisited(mazeInfo, position) {
+    return mazeInfo[position[1] - 1][position[0]].stepCount == 0;
+}
+
+function isLeftPathNotVisited(mazeInfo, position) {
+    return mazeInfo[position[1]][position[0] - 1].stepCount == 0;
+}
+
+function isLengthOfPossibilitiesGreaterThanPossibilitiesatIndexMax(returnPossibilities, index, indexMax) {
+    return returnPossibilities[index].possibilities.length >= returnPossibilities[indexMax].possibilities.length;
+}
+
+function isPositionDifferentFromBefore(returnPossibilities, index) {
+    return (ariane[i - 1][0] != returnPossibilities[index].positionX && ariane[i - 1][1] != returnPossibilities[index].positionY) || (ariane[i - 1][0] == returnPossibilities[index].positionX && ariane[i - 1][1] != returnPossibilities[index].positionY) || (ariane[i - 1][0] != returnPossibilities[index].positionX && ariane[i - 1][1] == returnPossibilities[index].positionY);
+}
+
+function hasNotDownPathAUpPossibility(mazeInfo, position) {
+    return !(mazeInfo[position[1] + 1][position[0]].possibilities.includes('U'));
+}
+
+function isDownPathAlreadyVisited(mazeInfo, position) {
+    return mazeInfo[position[1] + 1][position[0]].stepCount >= 0;
+}
+
+function isDownPathAPath(mazeInfo, position) {
+    return mazeInfo[position[1] + 1][position[0]].path == 0;
+}
+
+function isDownPathInMaze(mazeInfo, position) {
+    return typeof mazeInfo[position[1] + 1] !== 'undefined';
+}
+
+function hasNotRightPathALeftPossibility(mazeInfo, position) {
+    return !(mazeInfo[position[1]][position[0] + 1].possibilities.includes('L'));
+}
+
+function isRightPathAlreadyVisited(mazeInfo, position) {
+    return mazeInfo[position[1]][position[0] + 1].stepCount >= 0;
+}
+
+function isRightPathAPath(mazeInfo, position) {
+    return mazeInfo[position[1]][position[0] + 1].path == 0;
+}
+
+function isRightPathInMaze(mazeInfo, position) {
+    return typeof mazeInfo[position[1]][position[0] + 1] !== 'undefined';
+}
+
+function hasNotUpPathADownPossibility(mazeInfo, position) {
+    return !(mazeInfo[position[1] - 1][position[0]].possibilities.includes("D"));
+}
+
+function isUpPathAlreadyVisited(mazeInfo, position) {
+    return mazeInfo[position[1] - 1][position[0]].stepCount >= 0;
+}
+
+function isUpPathAPath(mazeInfo, position) {
+    return mazeInfo[position[1] - 1][position[0]].path == 0;
+}
+
+function isUpPathInMaze(mazeInfo, position) {
+    return typeof mazeInfo[position[1] - 1] !== 'undefined';
+}
+
+function hasNotLeftPathARightPossibility(mazeInfo, position) {
+    return !(mazeInfo[position[1]][position[0] - 1].possibilities.includes('R'));
+}
+
+function isLeftPathAlreadyVisited(mazeInfo, position) {
+    return mazeInfo[position[1]][position[0] - 1].stepCount >= 0;
+}
+
+function isLeftPathAPath(mazeInfo, position) {
+    return mazeInfo[position[1]][position[0] - 1].path == 0;
+}
+
+function isLeftPathInMaze(mazeInfo, position) {
+    return typeof mazeInfo[position[1]][position[0] - 1] !== 'undefined';
 }
