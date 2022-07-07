@@ -77,17 +77,20 @@ function movingInMaze(mazeInfo, goal, position) {
 
 function printEndInfo() {
     console.log(position);
-    console.log(ariane);
-    console.log("nombre d'étapes complet : " + ariane.length);
+    let path = [[goal[0], goal[1]]];
     let countPosition = [goal[0], goal[1]];
     let count = 0;
     while ((countPosition[0] != 0 && countPosition[1] != 0) || (countPosition[0] == 0 && countPosition[1] != 0) || (countPosition[0] != 0 && countPosition[1] == 0)) {
         let newPositionX = mazeInfo[countPosition[0]][countPosition[1]].from[0];
         let newPositionY = mazeInfo[countPosition[0]][countPosition[1]].from[1];
+        path.unshift([newPositionX, newPositionY]);
         countPosition[0] = newPositionX;
         countPosition[1] = newPositionY;
         count++;
     }
+    console.log(path);
+    console.log("nombre d'étapes complet : " + ariane.length);
+
 
     console.log("longueur du chemin : " + count);
 }
