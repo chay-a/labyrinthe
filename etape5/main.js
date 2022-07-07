@@ -43,12 +43,18 @@ function printMazewithPosition(mazeInfo, position) {
         for (let j = 0; j < mazeInfo[i].length; j++) {
             if (mazeInfo[i][j].path == 0) {
                 if (position[0] == j && position[1] == i) {
-                    mazeDisplay += "   ICI   ";
+                    mazeDisplay += "   ICI ";
                 } else {
-                    mazeDisplay += "    "+ mazeInfo[i][j].nodeNb +"    ";
+                    if (mazeInfo[i][j].nodeNb == null) {
+                        mazeDisplay += "   S   ";
+                    } else if (mazeInfo[i][j].nodeNb > 9) {
+                        mazeDisplay += "   "+ mazeInfo[i][j].nodeNb +"  ";
+                    } else {
+                        mazeDisplay += "   "+ mazeInfo[i][j].nodeNb +"   ";
+                    }
                 }
             } else {
-                mazeDisplay += "    M    ";
+                mazeDisplay += "   M   ";
             }
 
         }
