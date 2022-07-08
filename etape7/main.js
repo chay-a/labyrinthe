@@ -76,7 +76,6 @@ function movingInMaze(mazeInfo, goal, position) {
 }
 
 function printEndInfo() {
-    console.log(position);
     let path = [[goal[0], goal[1]]];
     let countPosition = [goal[0], goal[1]];
     let count = 0;
@@ -88,6 +87,44 @@ function printEndInfo() {
         countPosition[1] = newPositionY;
         count++;
     }
+
+    console.log("------------------------------------------------------");
+
+    for (let i = 0; i < mazeInfo[0].length; i++) {
+        let mazeDisplay = "";
+        for (let j = 0; j < mazeInfo.length; j++) {
+            if (mazeInfo[j][i].path == 0) {
+                if (position[0] == j && position[1] == i) {
+                    mazeDisplay += "ICI   ";
+                } else {
+                    if (i == 0 && j == 0) {
+                        mazeDisplay += "S     ";
+                    } else if (j == goal[0] && i == goal[1]) {
+                        mazeDisplay += "G     ";
+                    } else {
+                        let string = "_ ";
+                        for (let index = 0; index < path.length; index++) {
+                            if (path[index][0] == j && path[index][1] == i) {
+                                if (mazeInfo[j][i].pathNb < 10) {
+                                    string = mazeInfo[j][i].pathNb + " ";
+                                } else {
+                                    string = mazeInfo[j][i].pathNb;
+                                }
+                                
+                            }
+                        }
+                        mazeDisplay += string +"    ";
+                    }
+                }
+            } else {
+                mazeDisplay += "M     ";
+            }
+
+        }
+        console.log(mazeDisplay);
+    }
+
+    console.log(position);
     console.log(path);
     console.log("nombre d'étapes complet : " + ariane.length);
 
